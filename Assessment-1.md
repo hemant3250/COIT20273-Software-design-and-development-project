@@ -54,6 +54,6 @@ WasteWise is an intelligent enterprise platform designed to help restaurants red
 ## ✅ Quality Assurance Plan
 - Validate user requirements through feedback.
 - Unit, integration, and system testing.
-- Automated testing with Jest/Selenium.
+- Automated testing with Jest/Selenium.    
 - Version control with GitHub + CI/CD.
 - User Acceptance Testing (UAT) with restaurant staff.
