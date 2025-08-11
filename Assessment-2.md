@@ -3,7 +3,7 @@
 ## 📌 Overview
 WasteWise is a smart inventory and waste management system for restaurants. It uses AI forecasting, expiry alerts, and waste tracking to reduce food waste and improve efficiency. This report expands on the original proposal with detailed design and technical documentation.
 
-# 🗒 Detailed User Stories
+## 🗒 Detailed User Stories
  
 
 | User Story ID | User Story |
