@@ -37,7 +37,6 @@ WasteWise is an intelligent enterprise platform designed to help restaurants red
 - Database: MongoDB / PostgreSQL
 - AI Module: Python (Scikit-learn, TensorFlow)
 - Mobile App: React Native
-- Deployment: AWS EC2 + S3
 
 **Security:**
 - HTTPS communication
