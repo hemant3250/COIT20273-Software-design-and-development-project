@@ -4,6 +4,21 @@
 WasteWise is a smart inventory and waste management system for restaurants. It uses AI forecasting, expiry alerts, and waste tracking to reduce food waste and improve efficiency. This report expands on the original proposal with detailed design and technical documentation.
 
 # 🗒 Detailed User Stories
+ 
+
+| User Story ID | User Story |
+|---------------|---------------|
+| US-01 | As a restaurant manager, I want to log into the WasteWise system, so that I can access and manage inventory and waste data securely. |
+| US-02 | As a kitchen staff member, I want to scan a product's barcode, so that I can quickly add it to the inventory system. |
+| US-03 | As a kitchen staff member, I want to receive expiry alerts, so that I can use ingredients before they go bad. |
+| US-04 | As a restaurant manager, I want to view weekly waste reports, so that I can monitor food wastage trends. |
+| US-05 | As a staff member, I want to upload a food waste entry with a photo and reason, so that it can be logged properly. |
+| US-06 | As a restaurant manager, I want to get restocking suggestions from the AI module, so that I order the right quantity of supplies. |
+| US-07 | As a manager, I want to generate and download audit reports, so that I can comply with regulations. |
+| US-08 | As a chef, I want to see which ingredients are close to expiry, so that I can prioritize them in food preparation. |
+| US-09 | As a manager, I want to track ingredient costs by menu item daily, so that I can monitor profitability. |
+| US-10 | As a staff member, I want the system to sync with the POS, so that inventory updates automatically after a sale. |
+
 
 
 ## 🖼 Wireframes
