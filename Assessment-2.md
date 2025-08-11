@@ -26,7 +26,7 @@ WasteWise is a smart inventory and waste management system for restaurants. It u
 a. This is the screen where a new user creates an account. 
 ![Registration Wireframe](assets/RegistrationWireframe.png)
 
-b. Wireframe Flow – Login, Dashboard, Inventory, Alerts, Waste Log & Reports 
+b. Wireframe Flow – Login, Dashboard, Inventory, Alerts, Waste Log & Reports.
 ![Wireframe](assets/Wireframe.png)
 
 ## 🗄 Database Schema
