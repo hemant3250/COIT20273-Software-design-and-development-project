@@ -3,10 +3,8 @@
 ## 📌 Overview
 WasteWise is a smart inventory and waste management system for restaurants. It uses AI forecasting, expiry alerts, and waste tracking to reduce food waste and improve efficiency. This report expands on the original proposal with detailed design and technical documentation.
 
-## 🗒 Detailed User Stories
-- As a manager, I want to scan product barcodes so that I can update stock quickly.
-- As a chef, I want expiry alerts so that I can use ingredients before they spoil.
-- As an admin, I want waste reports so that I can comply with regulations.
+# 🗒 Detailed User Stories
+
 
 ## 🖼 Wireframes
 Prepared for:
@@ -25,7 +23,12 @@ Prepared for:
 
 
 ## 🤖 AI Component
-AI uses historical sales and waste data to predict demand and suggest restocking levels.
+The AI module, built in Python with Scikit-learn, TensorFlow, and FastAPI, provides:
+- **Demand Forecasting** – Predicts stock needs from sales/waste history.
+- **Waste Analysis** – Detects patterns and suggests fixes.
+- **Expiry Prioritization** – Smart alerts based on expiry and usage trends.
+- **Restocking Guidance** – POS-driven, seasonal-aware recommendations.  
+Integrated as a microservice, it sends predictions to the backend and displays actionable insights on the dashboard.
 
 ## 🛠 Tools & Platforms
 - **Version Control**: GitHub  
