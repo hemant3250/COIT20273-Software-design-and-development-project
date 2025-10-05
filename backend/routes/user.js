@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 
 const router = express.Router();
 
-// Middleware to check role
+// Middleware to check role  
 const requireRole = (roles) => {
   return async (req, res, next) => {
     try {
