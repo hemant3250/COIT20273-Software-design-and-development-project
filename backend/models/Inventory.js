@@ -41,7 +41,14 @@ const inventorySchema = new mongoose.Schema({
 });
 
 // Index for efficient queries
+<<<<<<< HEAD
 inventorySchema.index({ user: 1, status: 1 });
 inventorySchema.index({ expiryDate: 1 });
 
 export default mongoose.model('Inventory', inventorySchema);
+=======
+inventorySchema.index({ user: 1, status: 1 });  
+inventorySchema.index({ expiryDate: 1 });
+
+export default mongoose.model('Inventory', inventorySchema);
+>>>>>>> origin/main

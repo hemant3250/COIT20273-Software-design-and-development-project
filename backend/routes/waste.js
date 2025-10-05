@@ -1,6 +1,10 @@
 import express from 'express';
 import Waste from '../models/Waste.js';
+<<<<<<< HEAD
 import { protect, requirePermission } from '../middleware/auth.js';
+=======
+import { protect } from '../middleware/auth.js';
+>>>>>>> origin/main
 
 const router = express.Router();
 
@@ -10,6 +14,7 @@ router.use(protect);
 // @desc    Get all waste logs
 // @route   GET /api/waste
 // @access  Private
+<<<<<<< HEAD
 router.get('/', requirePermission('waste:read'), async (req, res) => {
   try {
     let query = {};
@@ -26,6 +31,11 @@ router.get('/', requirePermission('waste:read'), async (req, res) => {
     const wasteLogs = await Waste.find(query)
       .populate('user', 'name email')
       .sort({ createdAt: -1 });
+=======
+router.get('/', async (req, res) => {
+  try {
+    const wasteLogs = await Waste.find({ user: req.user._id }).sort({ createdAt: -1 });
+>>>>>>> origin/main
     res.json(wasteLogs);
   } catch (error) {
     console.error('Get waste logs error:', error);
@@ -36,7 +46,11 @@ router.get('/', requirePermission('waste:read'), async (req, res) => {
 // @desc    Add waste log entry
 // @route   POST /api/waste
 // @access  Private
+<<<<<<< HEAD
 router.post('/', requirePermission('waste:write'), async (req, res) => {
+=======
+router.post('/', async (req, res) => {
+>>>>>>> origin/main
   try {
     const { itemName, quantity, unit, reason, photoUrl, notes } = req.body;
 
@@ -65,7 +79,11 @@ router.post('/', requirePermission('waste:write'), async (req, res) => {
 // @desc    Delete waste log entry
 // @route   DELETE /api/waste/:id
 // @access  Private
+<<<<<<< HEAD
 router.delete('/:id', requirePermission('waste:delete'), async (req, res) => {
+=======
+router.delete('/:id', async (req, res) => {
+>>>>>>> origin/main
   try {
     const wasteLog = await Waste.findById(req.params.id);
 
@@ -86,4 +104,8 @@ router.delete('/:id', requirePermission('waste:delete'), async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 export default router;
+=======
+export default router;
+>>>>>>> origin/main

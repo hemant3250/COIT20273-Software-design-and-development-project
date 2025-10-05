@@ -1,6 +1,10 @@
 import express from 'express';
 import Inventory from '../models/Inventory.js';
+<<<<<<< HEAD
 import { protect, requirePermission } from '../middleware/auth.js';
+=======
+import { protect } from '../middleware/auth.js';
+>>>>>>> origin/main
 
 const router = express.Router();
 
@@ -10,6 +14,7 @@ router.use(protect);
 // @desc    Get all inventory items
 // @route   GET /api/inventory
 // @access  Private
+<<<<<<< HEAD
 router.get('/', requirePermission('inventory:read'), async (req, res) => {
   try {
     let query = {};
@@ -26,6 +31,11 @@ router.get('/', requirePermission('inventory:read'), async (req, res) => {
     const inventory = await Inventory.find(query)
       .populate('user', 'name email')
       .sort({ createdAt: -1 });
+=======
+router.get('/', async (req, res) => {
+  try {
+    const inventory = await Inventory.find({ user: req.user._id }).sort({ createdAt: -1 });
+>>>>>>> origin/main
     res.json(inventory);
   } catch (error) {
     console.error('Get inventory error:', error);
@@ -36,7 +46,11 @@ router.get('/', requirePermission('inventory:read'), async (req, res) => {
 // @desc    Add inventory item
 // @route   POST /api/inventory
 // @access  Private
+<<<<<<< HEAD
 router.post('/', requirePermission('inventory:write'), async (req, res) => {
+=======
+router.post('/', async (req, res) => {
+>>>>>>> origin/main
   try {
     const { name, quantity, unit, expiryDate, category } = req.body;
 
@@ -64,7 +78,11 @@ router.post('/', requirePermission('inventory:write'), async (req, res) => {
 // @desc    Update inventory item status
 // @route   PUT /api/inventory/:id
 // @access  Private
+<<<<<<< HEAD
 router.put('/:id', requirePermission('inventory:write'), async (req, res) => {
+=======
+router.put('/:id', async (req, res) => {
+>>>>>>> origin/main
   try {
     const { status, quantity } = req.body;
 
@@ -95,7 +113,11 @@ router.put('/:id', requirePermission('inventory:write'), async (req, res) => {
 // @desc    Delete inventory item
 // @route   DELETE /api/inventory/:id
 // @access  Private
+<<<<<<< HEAD
 router.delete('/:id', requirePermission('inventory:delete'), async (req, res) => {
+=======
+router.delete('/:id', async (req, res) => {
+>>>>>>> origin/main
   try {
     const inventoryItem = await Inventory.findById(req.params.id);
 
@@ -119,7 +141,11 @@ router.delete('/:id', requirePermission('inventory:delete'), async (req, res) =>
 // @desc    Get expiring items (within 3 days)
 // @route   GET /api/inventory/alerts
 // @access  Private
+<<<<<<< HEAD
 router.get('/alerts', requirePermission('inventory:read'), async (req, res) => {
+=======
+router.get('/alerts', async (req, res) => {
+>>>>>>> origin/main
   try {
     const threeDaysFromNow = new Date();
     threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
@@ -137,4 +163,8 @@ router.get('/alerts', requirePermission('inventory:read'), async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 export default router;
+=======
+export default router;
+>>>>>>> origin/main

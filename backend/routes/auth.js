@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
+<<<<<<< HEAD
 import TwoFactorAuth from '../models/TwoFactorAuth.js';
 import { generateToken, protect } from '../middleware/auth.js';
 import { sendTwoFactorCode } from '../services/emailService.js';
@@ -12,6 +13,12 @@ const generateTwoFactorCode = () => {
   return crypto.randomInt(100000, 999999).toString();
 };
 
+=======
+import { generateToken } from '../middleware/auth.js';
+
+const router = express.Router();
+
+>>>>>>> origin/main
 // @desc    Register user
 // @route   POST /api/auth/register
 // @access  Public
@@ -42,8 +49,11 @@ router.post('/register', async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+<<<<<<< HEAD
         role: user.role,
         permissions: user.permissions,
+=======
+>>>>>>> origin/main
         token: generateToken(user._id),
       });
     } else {
@@ -60,7 +70,11 @@ router.post('/register', async (req, res) => {
 // @access  Public
 router.post('/login', async (req, res) => {
   try {
+<<<<<<< HEAD
     const { email, password, twoFactorCode } = req.body;
+=======
+    const { email, password } = req.body;
+>>>>>>> origin/main
 
     // Validation
     if (!email || !password) {
@@ -71,6 +85,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (user && (await user.matchPassword(password))) {
+<<<<<<< HEAD
       // Check if 2FA is enabled
       if (user.twoFactorEnabled) {
         if (!twoFactorCode) {
@@ -113,13 +128,18 @@ router.post('/login', async (req, res) => {
       user.lastLogin = new Date();
       await user.save();
 
+=======
+>>>>>>> origin/main
       res.json({
         _id: user._id,
         name: user.name,
         email: user.email,
+<<<<<<< HEAD
         role: user.role,
         permissions: user.permissions,
         twoFactorEnabled: user.twoFactorEnabled,
+=======
+>>>>>>> origin/main
         token: generateToken(user._id),
       });
     } else {
@@ -131,6 +151,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // @desc    Enable two-factor authentication
 // @route   POST /api/auth/enable-2fa
 // @access  Private
@@ -247,3 +268,6 @@ router.get('/profile', protect, async (req, res) => {
 });
 
 export default router;
+=======
+export default router;
+>>>>>>> origin/main

@@ -180,4 +180,8 @@ const seedData = async () => {
   }
 };
 
+<<<<<<< HEAD
 seedData();
+=======
+seedData();
+>>>>>>> origin/main

@@ -31,4 +31,8 @@ const twoFactorAuthSchema = new mongoose.Schema({
 // Index for automatic cleanup of expired codes
 twoFactorAuthSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
+<<<<<<< HEAD
 export default mongoose.model('TwoFactorAuth', twoFactorAuthSchema);
+=======
+export default mongoose.model('TwoFactorAuth', twoFactorAuthSchema);
+>>>>>>> origin/main

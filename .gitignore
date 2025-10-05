@@ -1,7 +1,15 @@
 node_modules/
+<<<<<<< HEAD
 .env
 node_modules/
 **/.env
 **/.env.*
 dist/
 build/
+=======
+dist/
+.vite/
+.env
+.DS_Store
+                                                        
+>>>>>>> origin/main
