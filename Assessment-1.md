@@ -4,8 +4,8 @@
 WasteWise is an intelligent enterprise platform designed to help restaurants reduce food waste and improve inventory management. It leverages AI-based analytics and automation to provide demand forecasting, expiry alerts, waste reporting, and POS integration.
 
 ## 🎯 Objectives
-- Improve inventory management with barcode/QR scanning.
-- Predict optimal stock levels using AI.
+- Improve inventory management with barcode/QR scanning.                       
+- Predict optimal stock levels using AI.                  
 - Send reminders for products nearing expiry.
 - Generate visual waste analytics and compliance-ready reports.
 - Provide operational insights to reduce waste and improve accuracy.
