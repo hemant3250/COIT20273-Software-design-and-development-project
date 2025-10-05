@@ -16,3 +16,28 @@ WasteWise is an intelligent inventory and waste management system designed for r
 - 🌐 **Responsive Web Interface** for both desktop and mobile users
 
 ---
+
+## ⚙️ Tech Stack
+
+| Component | Technology |
+|------------|-------------|
+| **Frontend** | React + TypeScript + Vite |
+| **Backend** | Node.js + Express.js |
+| **Database** | MongoDB |
+| **Authentication** | JWT + Two-Factor (TOTP) |
+| **AI Module** | React-based assistant (integrated) |
+| **Styling** | Plain CSS |
+| **Testing** | Jest, Postman |
+| **Version Control** | GitHub |
+
+---
+
+## 🖥 System Requirements
+
+| Type | Minimum Requirement |
+|------|----------------------|
+| **Server** | 16 GB RAM, Node.js 18+, MongoDB |
+| **Client** | Modern browser, 4 GB RAM |
+| **OS** | Windows / macOS / Linux |
+
+---
