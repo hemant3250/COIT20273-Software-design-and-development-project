@@ -1,6 +1,6 @@
 import express from 'express';
 import Waste from '../models/Waste.js';
-import { protect } from '../middleware/auth.js';
+import { protect, requirePermission } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -10,9 +10,22 @@ router.use(protect);
 // @desc    Get all waste logs
 // @route   GET /api/waste
 // @access  Private
-router.get('/', async (req, res) => {
+router.get('/', requirePermission('waste:read'), async (req, res) => {
   try {
-    const wasteLogs = await Waste.find({ user: req.user._id }).sort({ createdAt: -1 });
+    let query = {};
+    
+    // If user is admin and requests all data, don't filter by user
+    if (req.user.role === 'admin' && req.query.all === 'true') {
+      // Admin can see all waste logs
+      query = {};
+    } else {
+      // Regular users and managers see only their own data
+      query = { user: req.user._id };
+    }
+    
+    const wasteLogs = await Waste.find(query)
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
     res.json(wasteLogs);
   } catch (error) {
     console.error('Get waste logs error:', error);
@@ -23,7 +36,7 @@ router.get('/', async (req, res) => {
 // @desc    Add waste log entry
 // @route   POST /api/waste
 // @access  Private
-router.post('/', async (req, res) => {
+router.post('/', requirePermission('waste:write'), async (req, res) => {
   try {
     const { itemName, quantity, unit, reason, photoUrl, notes } = req.body;
 
@@ -52,7 +65,7 @@ router.post('/', async (req, res) => {
 // @desc    Delete waste log entry
 // @route   DELETE /api/waste/:id
 // @access  Private
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requirePermission('waste:delete'), async (req, res) => {
   try {
     const wasteLog = await Waste.findById(req.params.id);
 
