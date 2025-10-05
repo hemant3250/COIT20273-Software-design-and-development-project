@@ -1,8 +1,16 @@
 import express from 'express';
 import User from '../models/User.js';
-import { generateToken } from '../middleware/auth.js';
+import TwoFactorAuth from '../models/TwoFactorAuth.js';
+import { generateToken, protect } from '../middleware/auth.js';
+import { sendTwoFactorCode } from '../services/emailService.js';
+import crypto from 'crypto';
 
 const router = express.Router();
+
+// Generate 6-digit code
+const generateTwoFactorCode = () => {
+  return crypto.randomInt(100000, 999999).toString();
+};
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -34,6 +42,8 @@ router.post('/register', async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
+        permissions: user.permissions,
         token: generateToken(user._id),
       });
     } else {
@@ -50,7 +60,7 @@ router.post('/register', async (req, res) => {
 // @access  Public
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, twoFactorCode } = req.body;
 
     // Validation
     if (!email || !password) {
@@ -61,10 +71,55 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (user && (await user.matchPassword(password))) {
+      // Check if 2FA is enabled
+      if (user.twoFactorEnabled) {
+        if (!twoFactorCode) {
+          // Generate and send 2FA code
+          const code = generateTwoFactorCode();
+          
+          await TwoFactorAuth.create({
+            user: user._id,
+            code,
+            type: 'login'
+          });
+
+          await sendTwoFactorCode(user.email, code, 'login');
+
+          return res.json({
+            requiresTwoFactor: true,
+            message: 'Two-factor authentication code sent to your email'
+          });
+        } else {
+          // Verify 2FA code
+          const twoFactorRecord = await TwoFactorAuth.findOne({
+            user: user._id,
+            code: twoFactorCode,
+            type: 'login',
+            isUsed: false,
+            expiresAt: { $gt: new Date() }
+          });
+
+          if (!twoFactorRecord) {
+            return res.status(400).json({ message: 'Invalid or expired verification code' });
+          }
+
+          // Mark code as used
+          twoFactorRecord.isUsed = true;
+          await twoFactorRecord.save();
+        }
+      }
+
+      // Update last login
+      user.lastLogin = new Date();
+      await user.save();
+
       res.json({
         _id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
+        permissions: user.permissions,
+        twoFactorEnabled: user.twoFactorEnabled,
         token: generateToken(user._id),
       });
     } else {
@@ -72,6 +127,121 @@ router.post('/login', async (req, res) => {
     }
   } catch (error) {
     console.error('Login error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @desc    Enable two-factor authentication
+// @route   POST /api/auth/enable-2fa
+// @access  Private
+router.post('/enable-2fa', protect, async (req, res) => {
+  try {
+    const { code } = req.body;
+
+    if (!code) {
+      // Generate and send 2FA code
+      const twoFactorCode = generateTwoFactorCode();
+      
+      await TwoFactorAuth.create({
+        user: req.user._id,
+        code: twoFactorCode,
+        type: 'enable_2fa'
+      });
+
+      await sendTwoFactorCode(req.user.email, twoFactorCode, 'enable_2fa');
+
+      return res.json({
+        message: 'Verification code sent to your email'
+      });
+    }
+
+    // Verify code and enable 2FA
+    const twoFactorRecord = await TwoFactorAuth.findOne({
+      user: req.user._id,
+      code,
+      type: 'enable_2fa',
+      isUsed: false,
+      expiresAt: { $gt: new Date() }
+    });
+
+    if (!twoFactorRecord) {
+      return res.status(400).json({ message: 'Invalid or expired verification code' });
+    }
+
+    // Enable 2FA for user
+    await User.findByIdAndUpdate(req.user._id, { twoFactorEnabled: true });
+    
+    // Mark code as used
+    twoFactorRecord.isUsed = true;
+    await twoFactorRecord.save();
+
+    res.json({ message: 'Two-factor authentication enabled successfully' });
+  } catch (error) {
+    console.error('Enable 2FA error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @desc    Disable two-factor authentication
+// @route   POST /api/auth/disable-2fa
+// @access  Private
+router.post('/disable-2fa', protect, async (req, res) => {
+  try {
+    const { code } = req.body;
+
+    if (!code) {
+      // Generate and send 2FA code
+      const twoFactorCode = generateTwoFactorCode();
+      
+      await TwoFactorAuth.create({
+        user: req.user._id,
+        code: twoFactorCode,
+        type: 'disable_2fa'
+      });
+
+      await sendTwoFactorCode(req.user.email, twoFactorCode, 'disable_2fa');
+
+      return res.json({
+        message: 'Verification code sent to your email'
+      });
+    }
+
+    // Verify code and disable 2FA
+    const twoFactorRecord = await TwoFactorAuth.findOne({
+      user: req.user._id,
+      code,
+      type: 'disable_2fa',
+      isUsed: false,
+      expiresAt: { $gt: new Date() }
+    });
+
+    if (!twoFactorRecord) {
+      return res.status(400).json({ message: 'Invalid or expired verification code' });
+    }
+
+    // Disable 2FA for user
+    await User.findByIdAndUpdate(req.user._id, { twoFactorEnabled: false });
+    
+    // Mark code as used
+    twoFactorRecord.isUsed = true;
+    await twoFactorRecord.save();
+
+    res.json({ message: 'Two-factor authentication disabled successfully' });
+  } catch (error) {
+    console.error('Disable 2FA error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @desc    Get current user profile
+// @route   GET /api/auth/profile
+// @access  Private
+router.get('/profile', protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('-password');
+    res.json(user);
+  } catch (error) {
+    console.error('Get profile error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
