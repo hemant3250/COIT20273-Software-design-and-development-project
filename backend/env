@@ -1,0 +1,17 @@
+# Database
+MONGODB_URI=mongodb://localhost:27017/wastewise
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key-here
+
+# Email Configuration (for 2FA)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=Ybpatel.it@gmail.com
+SMTP_PASS=chywrhehtnrouxbb
+
+# OpenAI Configuration (for AI Assistant)
+OPENAI_API_KEY=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
+PORT=5000
+NODE_ENV=development
+CLIENT_URL=http://localhost:5173
