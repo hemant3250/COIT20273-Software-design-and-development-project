@@ -7,7 +7,8 @@ import {
   Trash2, 
   LogOut, 
   User,
-  Leaf
+  Leaf,
+  Users
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -28,6 +29,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/', label: 'Dashboard', icon: Home },
     { path: '/inventory', label: 'Add Inventory', icon: Package },
     { path: '/waste', label: 'Waste Log', icon: Trash2 },
+    ...(user?.role === 'admin' || user?.role === 'manager' 
+      ? [{ path: '/users', label: 'Users', icon: Users }] 
+      : []),
   ];
 
   return (
