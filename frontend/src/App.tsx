@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AddInventory from './pages/AddInventory';
 import WastePage from './pages/WastePage';
+import UsersPage from './pages/UsersPage';
 
 function App() {
   return (
@@ -40,6 +41,14 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <WastePage />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/users" element={
+              <ProtectedRoute>
+                <Layout>
+                  <UsersPage />
                 </Layout>
               </ProtectedRoute>
             } />
